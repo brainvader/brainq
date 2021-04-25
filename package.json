@@ -9,7 +9,8 @@
     "serve": "next start",
     "ssg": "next build && node ./scripts/generate-sitemap && next export",
     "analyze": "env ANALYZE=true next build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "gen:post": "node ./scripts/generate-post.js " 
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.5.0",
