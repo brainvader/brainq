@@ -8,8 +8,8 @@ This blog is created from the following template.
 
 - [x] Generater for posts with random 6 digits as a file name
 - [x] Restructure the data folder with a yyyy/mm/dd/name.mdx format
-- [ ] Use shiki as a syntax highlighter instead of Prism
-- [ ] Update the last modified date (lastmod) automatically when building the blog
+- [x] Use shiki as a syntax highlighter instead of Prism
+- ~~[ ] Update the last modified date (lastmod) automatically when building the blog~~
 - [ ] Update styles to much more simpler looks
 - [ ] Support Static Site Generation (SSG)
 
