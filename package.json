@@ -1,12 +1,13 @@
 {
-  "name": "tailwind-nextjs-starter-blog",
-  "version": "0.2.1",
+  "name": "brainq",
+  "version": "0.1",
   "private": true,
   "scripts": {
     "start": "next-remote-watch ./data",
     "dev": "next dev",
     "build": "next build && node ./scripts/generate-sitemap",
     "serve": "next start",
+    "ssg": "next build && node ./scripts/generate-sitemap && next export",
     "analyze": "env ANALYZE=true next build",
     "prepare": "husky install"
   },
