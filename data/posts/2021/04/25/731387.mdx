@@ -25,3 +25,47 @@ tags: ['next.js']
 
 いくつか変更点があったりしますが, おおよそ要求を満たしており自分の知らいないことも含まれていて勉強にもなります.
 
+## わかっている問題点
+
+### next/image
+
+スタイルの調整などありますが, nextのImageコンポーネントがnext exportに対応してないようです. 以下のようなエラーが出ます.
+
+```sh
+Error: Image Optimization using Next.js' default loader is not compatible with `next export`.
+```
+
+ドキュメントにもそのように書かれています.
+
+> The next/image component's default loader is not supported when using next export. However, other loader options will work.
+
+- [Loader - Image Component and Image Optimization](https://nextjs.org/docs/basic-features/image-optimization#loader)
+
+
+next.jsの[Issues](https://github.com/vercel/next.js/issues/18356#issuecomment-720887789)にも指摘されています.
+
+
+```javascript
+ if (!options.buildExport) {
+    const isDefaultImageLoader =
+      !nextConfig.images.loader || nextConfig.images.loader === 'default'
+    if (isDefaultImageLoader) {
+      Log.error(
+        "next export cannot be used with Next.js' default image loader, as it relies on `next start`."
+      )
+      // stop export ...
+    }
+  }
+```
+
+このコードを見る限り[unoptimized](https://nextjs.org/docs/api-reference/next/image#unoptimized)というオプションで動くかなと思いましたが, あまり関係なさそうですね.
+[カスタム・ローダー](https://nextjs.org/docs/api-reference/next/image#loader)を書くのがいいのかもしれません.
+
+- [Next.js 10 の画像最適化システム next/image を読んで理解を深める](https://zenn.dev/saitoeku3/articles/read-next-image)
+
+
+### Mdxファイルでの画像の読み込み
+
+
+### shikiとダーク・モードの相性
+
