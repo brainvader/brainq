@@ -66,6 +66,45 @@ next.jsの[Issues](https://github.com/vercel/next.js/issues/18356#issuecomment-7
 
 ### Mdxファイルでの画像の読み込み
 
+画像はpublic以下に直接アクセスできる. 例えばpublic直下にimageというフォルダがあると,
+
+```md
+![適当](/image/example.png)
+```
+
+となる. しかしアセットはmdxファイルと一緒のフォルダで管理したい.
+
 
 ### shikiとダーク・モードの相性
+
+![コードのハイライト](/static/images/test.png)
+
+### next-optimized-images
+
+導入するかわ分からないですがやり方が良く分からない. 問題は[@next/bundle-analyzer](https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer)というのが使われていることです.
+
+[この例](https://github.com/Kaisa55275/titanic-rising/blob/master/next.config.js)
+
+[next-compose-plugins](https://github.com/cyrilwanner/next-optimized-images)を使うとできるっぽいです.
+[Configure multiple next plugins: withMDX, withBundleAnalyzer](https://stackoverflow.com/questions/67135699/configure-multiple-next-plugins-withmdx-withbundleanalyzer)によるとnext-compose-pluginsで
+全体を包んであげるっぽいです.
+
+```javascript
+const withPlugins = require('next-compose-plugins');
+const withMDX = require('@next/mdx');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withPlugins([
+ 
+  // add a plugin with specific configuration
+  [withMDX, {
+   // MDX plugin specific options
+  }],
+ 
+  // add it like this if no plugin configuration is needed
+  [withBundleAnalyzer],
+]);
+```
 
