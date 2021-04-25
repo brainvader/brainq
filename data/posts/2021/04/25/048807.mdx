@@ -1,0 +1,35 @@
+---
+title: "タイムスタンプと時刻の表記について"
+date: '2021-04-25T05:06:11.067Z'
+tags: ['javascript']
+---
+
+ポストの作成時間(タイムスタンプ)について単純にYYYY-MM-DDという形式では駄目だったという話.
+<!-- sep -->
+このブログでは同日に表示されたポストの名前がランダムな数列なので整列できない. 作成順に並べるのがブログの一般的な慣習なのでこれに従うようにタイムスタンプの生成方法変える必要があった. 単純に時刻を追加すれば良いわけですが, 時刻はどのように表現するべきでしょうか?
+
+## ISO 8601
+
+時刻には[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)というフォーマットがあります.
+
+> ISO 8601 Data elements and interchange formats – Information interchange – Representation of dates and times is an international standard covering the exchange of date- and time-related data.
+
+これは日付と時刻に関する国際標準のことです. JavaScriptのDateオブジェクトが持つtoISOStringメソッドが返す日付がISO 8601形式になっています.
+
+```javascript
+const date = new Date()
+const timeStamp = date.toISOString()
+// => 2021-04-23T11:00:23.240Z
+```
+
+Tを境にして前半が日付, 後半が時間です. 時間はミリ秒単位で表現されているようです.
+
+## タイム・ゾーン指定子
+
+標準時としてはUTC(協定世界時)があり, JST(日本標準時)とは9時間のタイムラグがある.
+
+例えばこのポストは
+
+2021-04-23T11:00:23.240Z
+
+というタイムスタンプで記録されています. これはUTC表記と同じです. 最後のZは[zone designator](https://en.wikipedia.org/wiki/ISO_8601#Time_zone_designators)で, UTCからの補正がない, つまりUTCそのものであることを意味します. UTCに9時間足すとJSTになるので, おおよそ日本標準時で20時に作成したことがわかります. このようにUTCとかJSTを暗に陽に示すことで時間を判断できます.
