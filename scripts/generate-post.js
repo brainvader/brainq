@@ -39,7 +39,7 @@ const main = async function () {
   const [yyyy, mm, dd ] = timeStamp.split('T')[0].split('-')
 
   // generate a path to post like yyyy/mm/dd/[filename].mdx
-  const postDir = path.join(`./posts`, `${yyyy}`, `${mm}`, `${dd}`);
+  const postDir = path.join(`./data`, `posts`, `${yyyy}`, `${mm}`, `${dd}`);
   await createDir(postDir);
 
   // generate and output a markdown file with randomw 6 digits as its name 
