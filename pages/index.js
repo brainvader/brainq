@@ -8,7 +8,9 @@ const MAX_DISPLAY = 5
 const postDateTemplate = { year: 'numeric', month: 'long', day: 'numeric' }
 
 export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog')
+  const posts = await getAllFilesFrontMatter('posts')
+  // const posts = await getAllFilesFrontMatter('blog')
+
 
   return { props: { posts } }
 }
