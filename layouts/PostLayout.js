@@ -5,7 +5,7 @@ import { BlogSeo } from '@/components/SEO'
 import Tag from '@/components/Tag'
 import siteMetdata from '@/data/siteMetadata'
 
-const editUrl = (fileName) => `${siteMetdata.siteRepo}/blob/master/data/blog/${fileName}`
+const editUrl = (fileName) => `${siteMetdata.siteRepo}/blob/master/data/posts/${fileName}`
 const discussUrl = (slug) =>
   `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetdata.siteUrl}/blog/${slug}`)}`
 
