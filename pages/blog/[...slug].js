@@ -7,9 +7,9 @@ import PageTitle from '@/components/PageTitle'
 import generateRss from '@/lib/generate-rss'
 
 export async function getStaticPaths() {
-  const posts = await getFiles('blog')
+  const posts = await getFiles('posts')
 
-  return {
+  return  {
     paths: posts.map((p) => ({
       params: {
         slug: formatSlug(p),
@@ -20,11 +20,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const allPosts = await getAllFilesFrontMatter('blog')
-  const postIndex = allPosts.findIndex((post) => post.slug === params.slug)
+  const allPosts = await getAllFilesFrontMatter('posts')
+  const postIndex = allPosts.findIndex((post) => post.slug === params.slug.join('/'))
   const prev = allPosts[postIndex + 1] || null
   const next = allPosts[postIndex - 1] || null
-  const post = await getFileBySlug('blog', params.slug)
+  const post = await getFileBySlug('posts', params.slug.join('/'))
 
   // rss
   const rss = generateRss(allPosts)
