@@ -10,7 +10,7 @@
     "ssg": "next build && node ./scripts/generate-sitemap && next export",
     "analyze": "env ANALYZE=true next build",
     "prepare": "husky install",
-    "gen:post": "node ./scripts/generate-post.js " 
+    "gen:post": "node ./scripts/generate-post.js "
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.5.0",
@@ -37,6 +37,7 @@
     "remark-footnotes": "^2.0.0",
     "remark-math": "3.0.1",
     "remark-slug": "6.0.0",
+    "shiki": "^0.9.3",
     "tailwindcss": "^2.1.1"
   },
   "devDependencies": {
