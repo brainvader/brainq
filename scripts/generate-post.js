@@ -14,11 +14,11 @@ const createPostId = () => {
 
 const createFrontMatter = (timeStamp) => {
   const title = `title:`;
-  const description = `description:`;
+  const tags = `tags: `;
   const date = `date: '${timeStamp}'`;
   return `---` + `\n` +
     title + `\n` +
-    description + `\n` +
+    tags + `\n` +
     date + `\n` +
     `---`;
 };
