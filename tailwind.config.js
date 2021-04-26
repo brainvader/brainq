@@ -23,6 +23,9 @@ module.exports = {
       },
       colors: {
         blue: colors.lightBlue,
+        black: {
+          shiki: '#272822'
+        },
         code: {
           green: '#b5f4a5',
           yellow: '#ffe484',
@@ -118,7 +121,7 @@ module.exports = {
               color: theme('colors.gray.100'),
             },
             code: {
-              backgroundColor: theme('colors.gray.800'),
+              backgroundColor: theme('colors.black.shiki'),
             },
             hr: { borderColor: theme('colors.gray.700') },
             'ol li:before': {
