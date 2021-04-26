@@ -77,20 +77,79 @@ next.jsの[Issues](https://github.com/vercel/next.js/issues/18356#issuecomment-7
 
 ### shikiとダーク・モードの相性
 
+デフォルトのダーク・モードのテーマはコードの背景色と文字の背景色が違うように見えます.
+
 ![コードのハイライト](/static/images/test.png)
+
+実害はないのですが, かなり気持ちが落ち着きませんね. これはshikiがpreタグに適用する背景色とtailwindがテーマで設定しているcodeの背景色が違うことが原因です.
+codeの背景色はspanに継承されているようでコード部分とそれを囲う部分の色に齟齬が出ているわけです.
+
+```html
+<pre class="shiki"> <!-- shikiの背景色 -->
+  <code> <!-- tailwindcssの背景色 -->
+    <span>const a = 10;</span>
+  </code>
+</pre>
+```
+
+Firefoxの開発ツールにあるカラーピッカーで色shikiがpreタグに適用する色を調べると#272822でした. 同じ色をtailwindでも使えば良いわけです.
+まずtailwind.config.jsのtheme以下で新しいカラー・パレットを定義します.
+
+```javascript
+darkMode: 'class',
+theme: {
+  extend: {
+    colors: {
+      ...
+      black: {
+        shiki: '#272822'
+      },
+      ...
+    },
+  }
+}
+```
+
+ダーク・モードのcodeの背景色として定義したshikiを適用します.
+
+```javascript
+dark: {
+  css: {
+    code: {
+      backgroundColor: theme('colors.black.shiki'),
+    },
+  }
+}
+```
+
+これで色が統一されました.
+
+[Customizing Colors](https://tailwindcss.com/docs/customizing-colors)
+
+## remark-gfmへの非対応
+
+remark-gfmを導入したのですが, next-mdx-remoteは[hashicorp/remark-plugins](https://github.com/hashicorp/remark-pluginsに依存していたりします.
+このremarkのバージョンが12なので非対応だったりします.
+
+> [remark-gfm] Warning: please upgrade to remark 13 to use this plugin
+
+コンポーネント作るが良いかもしれません.
 
 ### next-optimized-images
 
-導入するかわ分からないですがやり方が良く分からない. 問題は[@next/bundle-analyzer](https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer)というのが使われていることです.
+next-optimized-imagesやnext-imagesなどを導入しましたがうまく動きませんでした.
 
-[この例](https://github.com/Kaisa55275/titanic-rising/blob/master/next.config.js)
+~~導入するかわ分からないですがやり方が良く分からない. 問題は[@next/bundle-analyzer](https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer)というのが使われていることです.~~
 
-[next-compose-plugins](https://github.com/cyrilwanner/next-optimized-images)を使うとできるっぽいです.
+~~[この例](https://github.com/Kaisa55275/titanic-rising/blob/master/next.config.js)~~
+
+~~[next-compose-plugins](https://github.com/cyrilwanner/next-optimized-images)を使うとできるっぽいです.
 [Configure multiple next plugins: withMDX, withBundleAnalyzer](https://stackoverflow.com/questions/67135699/configure-multiple-next-plugins-withmdx-withbundleanalyzer)によるとnext-compose-pluginsで
-全体を包んであげるっぽいです.
+全体を包んであげるっぽいです.~~
+
 
 ```javascript
-const withPlugins = require('next-compose-plugins');
+const withPlugins = require('next-compose-plugins');~~
 const withMDX = require('@next/mdx');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
@@ -107,4 +166,3 @@ module.exports = withPlugins([
   [withBundleAnalyzer],
 ]);
 ```
-
