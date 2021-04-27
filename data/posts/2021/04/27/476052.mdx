@@ -1,0 +1,121 @@
+---
+title: UnityHubをPop!_OS 20.04に導入する
+tags: ['Unity']
+date: '2021-04-27T10:01:55.242Z'
+---
+
+
+UnityはLinuxに対応しているのでインストールしてみようという話.<!-- sep -->
+システム要求はUbuntu 16.04, 18.04, and CentOS 7ですが, 多分20.04でも動くという報告はあります.
+Pop!_OS!で動くかは分かりませんが多分大丈夫でしょう.
+
+## ダウンロード
+
+とにかくまずUnityHubをダウンロードする必要があります. Unity自体はUnityHubを使ってインストールできるようです. 
+方法は２つあります.
+
+1. Pop!_Shopからインストールする.
+2. 公式ダウンロード
+
+1の場合は特に説明は必要ありません. またバージョンも執筆時点では2.4.3と最新版になっていました.
+以下では2のやり方の説明をします.
+
+## Desktop Entry
+
+公式からのダウンロード方法の問題はUnityHubがAppimageとして提供されていることです.
+ドックへのお気に入り登録とか, そもそもアプリケーションの検索で引っかからないので不便です.
+普通のアプリケーションと同じように利用するにはひと手間いるのです.
+
+
+デスクトップ・エントリというのが必要になります. .desktopという拡張子のファイルです. 
+内容は[Desktop Entry]という見出しから始まるメタ・データの
+
+> Both the KDE and GNOME desktop environments have adopted a similar format for "desktop entries", or configuration files describing how a particular program is to be launched, how it appears in menus, etc. 
+
+[Desktop Entry Specification](https://developer.gnome.org/desktop-entry-spec/#introduction)
+
+このファイルをAppImageと一緒に~/.local/share/applicationsとかに配置します.
+
+> These files usually reside in /usr/share/applications/ or /usr/local/share/applications/ for applications installed system-wide, or ~/.local/share/applications/ for user-specific applications. 
+
+ではデスクトップ・エントリはどうやって作るのでしょう. 手書きもできますがUnityHubの場合,
+
+```sh
+./UnityHub.AppImage --appimage-extract unityhub.*
+```
+
+でunityhub.desktopというファイルとデスクトップ・アイコンのunityhub.pngが取り出せます
+
+## Unityエンジンのインストール
+
+Unityエンジンのインストールは同じです.
+
+UnityHubのサイドメニューのinstallsを選択して, 右上のADDボタンを押すとモーダル画面が出現してエンジンのバージョンが選択肢として表示されます
+今回は最新のLTSである2020.3.5fをインストールしました.　フォルダーは~/.unityにします.
+
+![UnityHubでインストールするUnityエンジンのバージョンを選択する画面](/static/posts/2021/04/27/476052_001.png)
+
+
+## プロジェクトの作成
+
+適当にプロジェクトを作成しエンジンを起動します.
+
+![Linuxで起動したUnityエンジン](/static/posts/2021/04/27/476052_002.png)
+
+## デフォルト・エディタ
+
+デフォルト・エディタはVSCodeに設定します. Edit ➡ Preferencesを選択します. External Toolsを開いて, External Script EditorでVSCodeを選択します.
+単にcodeとなっていればオッケーです.
+
+![デフォルトのエディタとしえｔVSCodeが選択されている](/static/posts/2021/04/27/476052_003.png)
+
+## Hello World
+
+階層から空のオブジェクトを作成して, スクリプト・コンポーネントを追加します. アセットとしてC#スクリプトを作成し開きます.
+ここでVSCodeが必要です的なメッセージが出たので,Pop!_Shopからfluthubのバージョンを入れ直しました.
+
+開こうとすると以下のようなメッセージが表示されました.
+
+![dotnetとmonoが必要というメッセージ](/static/posts/2021/04/27/476052_004.png)
+
+メッセージに従ってdotnetとmono6のダウンロード方法を探します. 以下を参考にしました.
+
+[How do I use Visual Studio Code to develop Unity3D projects in Ubuntu](https://stackoverflow.com/questions/52807397/how-do-i-use-visual-studio-code-to-develop-unity3d-projects-in-ubuntu)
+
+Mono公式の[インストールガイド](https://www.mono-project.com/download/stable/)にしたがって最新のMono SDKを入れます.
+同様に.NET公式の[インストールガイド](https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#2004-)からSDKをインストールします.
+
+バージョンなどが心配ですが試してみましょう. とりあえずプロジェクトフォルダからhelloworld.csファイルを開きます.
+以下の内容を書き込んで最初に作ったからのオブジェクトに追加します.
+
+```csharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class helloworld : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        Debug.Log("Hello World!");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
+```
+
+Unityエンジンに戻ってCtrl + Pで実行しましょう. コンソールにHello World!と表示されれば問題なく動いています.
+
+## 問題点
+
+UnityエディタのアセットからC#ファイルをダブルクリックするもVSCodeが開かない. またdotnetとmono6のSDKが必要というメッセージも表示されるなど非常に不便である.
+
+## 参考
+
+[Ubuntu 19.10でUnity Hubをランチャーに登録・アイコンを表示](https://qiita.com/WhiteGrouse/items/06d02255a18e815512d5)
+[Ubuntu20.04にUnity2020.1をインストールしたのでメモ](http://pineplanter.moo.jp/non-it-salaryman/2020/08/09/unity-ubuntu/)
