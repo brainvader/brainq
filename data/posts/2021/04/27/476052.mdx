@@ -115,6 +115,44 @@ Unityエンジンに戻ってCtrl + Pで実行しましょう. コンソール�
 
 UnityエディタのアセットからC#ファイルをダブルクリックするもVSCodeが開かない. またdotnetとmono6のSDKが必要というメッセージも表示されるなど非常に不便である.
 
+## 追記
+
+VSCodeとUnityHubどちらも公式のものを使うと行ける.
+
+VSCodeは.debをダウンロードしてきて,
+
+```sh
+cd ~/Downloads
+sudo apt install ./code*.deb
+```
+
+で入れる. Pop!_Shopでアップデートがでるのですが, これを入れると/usr/bin/codeから/usr/share/codeへのシンボリック・リンクが消えてしまうようなので注意です.
+
+
+UnityHubの方は公式のAppimageファイルはアイコンが無いです.[Icon Request: unity-editor, unity-hub #139](https://github.com/rudrab/Shadow/issues/139)から取得して, /usr/share/icons/unityhub以下にでも保存しておきましょう.
+
+本体のAppImageファイルは適当な場所($HOME以下の適当な場所)に置き, desktopファイルは~/.local/share/applications/以下に置いておきます.
+内容は以下のような感じにしました.
+
+```txt
+[Desktop Entry]
+Name=Unity Hub
+Exec=/home/brainvader/Applications/UnityHub.AppImage
+Terminal=false
+Type=Application
+Icon=/usr/share/icons/unityhub/unityhub.png
+StartupWMClass=Unity Hub
+X-AppImage-Version=2.4.3
+Comment=The Official Unity Hub
+MimeType=x-scheme-handler/unityhub;
+Categories=Development;
+```
+
+これでUnityHubからUnityエンジンを開いて, アセットからC#ファイルをダブル・クリックするとVSCodeが起動します.
+以下を参考にすると良かったのかもしれません.
+
+[[SOLVED] Unity with VS Code and intellisense on Linux Mint](https://forum.unity.com/threads/solved-unity-with-vs-code-and-intellisense-on-linux-mint.986088/)
+
 ## 参考
 
 [Ubuntu 19.10でUnity Hubをランチャーに登録・アイコンを表示](https://qiita.com/WhiteGrouse/items/06d02255a18e815512d5)
