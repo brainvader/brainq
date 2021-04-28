@@ -1,0 +1,68 @@
+---
+title: DyConCMS (1) Next.jsとreact-flowの相性検証
+tags: ['react', 'next.js', 'react-flow']
+date: '2021-04-28T13:48:30.347Z'
+---
+
+コンテンツなどを管理するのに簡単なノード・ベースのCMSを作ろうと思い立った話.
+<!-- sep -->
+CMSといってもWebUIなんて作らずに, データの関係性を編集することに特化したものにしたいと思います.
+
+
+## 課題
+
+作りたいのはクイズベースの図鑑アプリです. 〇〇とは?のような一問一答形式で, 印刷したらトランプのカード一枚に収まるようにしたいです.
+簡単なイラストを入れてスマフォをかざすと詳しい内容がARとかWebページで見れるとよいな思っています.
+カードは互いに関係性を持っており, グラフとして表現できます.
+この辺を今回のCMSが解決する課題と設定します.
+開発名はDyConCMS(Dynamic Conection Content Management System)とします.
+
+## 要求
+
+* ID管理
+* カードの作成
+* ノードの表示とエッジの編集
+
+
+## 技術
+
+主には以下のようなソフトウェアを利用します.
+
+* Next.js
+* React Flow
+* Dgraph
+
+クエリはGraphQLを利用する予定です.
+
+## 本題
+
+さて本題です. Dgraphとかは適当に触っているのでNext.jsとSWRを組み合わせると多分データを取得して表示することはできます.
+問題はそれをノード形式で表示する部分です. ノードは手作りかなとずっと頭を悩ませていたのですが, [react-flow](https://github.com/wbkd/react-flow)を使わせてもらうことにしました.
+
+## 結論
+
+pages/index.jsを以下に書き換えるだけです.
+
+```javascript
+import ReactFlow from 'react-flow-renderer'
+
+const elements = [
+  { id: '1', type: 'input', data: { label: 'Node 1' }, position: { x: 250, y: 5 } },
+  { id: '2', data: { label: <div>Node 2</div> }, position: { x: 100, y: 100 } },
+  { id: 'e1-2', source: '1', target: '2', animated: true },
+];
+
+export default function Home() {
+  return (
+    <div style={{ height: '100vh'}}>
+      <ReactFlow elements={elements} />
+    </div>
+  )
+}
+```
+
+すると以下のような図が表示されます. マウスで移動もできます🐭
+
+![react-flowでのノード表示例](/static/posts/2021/04/28/221658_001.png)
+
+簡単でした👍
