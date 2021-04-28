@@ -153,6 +153,18 @@ Categories=Development;
 
 [[SOLVED] Unity with VS Code and intellisense on Linux Mint](https://forum.unity.com/threads/solved-unity-with-vs-code-and-intellisense-on-linux-mint.986088/)
 
+VSCodeはPop!_Shopから.debファイルをインストールしました. 実行ファイルは/usr/share/code/bin/code以下にインストールされます.
+ここはシェルの検索パスにないので, シンボリック・リンクを貼りました.
+
+```bash
+cd /usr/local/bin
+sudo ln -s /usr/share/code/bin/code
+```
+
+再びUnityエンジンのプリファレンスからExternal Script Editorを設定すればC#スクリプトがをクリックするとプロジェクトとファイルを開いてくれるようになります.
+
+[vscode を ubuntu に .deb で install したら実行ファイルがどこにあるか探して手 symlink を貼る必要があったメモ](https://qiita.com/usagi/items/d800457a7ee355d7305d)
+
 ## 参考
 
 [Ubuntu 19.10でUnity Hubをランチャーに登録・アイコンを表示](https://qiita.com/WhiteGrouse/items/06d02255a18e815512d5)
