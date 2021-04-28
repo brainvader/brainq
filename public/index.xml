@@ -7,9 +7,21 @@
       <language>en-us</language>
       <managingEditor>brainvade@gmail.com (BrainVader)</managingEditor>
       <webMaster>brainvade@gmail.com (BrainVader)</webMaster>
-      <lastBuildDate>Tue, 27 Apr 2021 10:01:55 GMT</lastBuildDate>
+      <lastBuildDate>Wed, 28 Apr 2021 13:48:30 GMT</lastBuildDate>
       <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/04/28/221658</guid>
+    <title>DyConCMS (1) Next.jsとreact-flowの相性検証</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/04/28/221658</link>
+    <description>
+コンテンツなどを管理するのに簡単なノード・ベースのCMSを作ろうと思い立った話.
+</description>
+    <pubDate>Wed, 28 Apr 2021 13:48:30 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>react</category><category>next.js</category><category>react-flow</category>
+  </item>
+
   <item>
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/04/27/476052</guid>
     <title>UnityHubをPop!_OS 20.04に導入する</title>
