@@ -1,0 +1,68 @@
+---
+title: DyConCMS (2) 仕様
+tags: ['DyConCMS']
+date: '2021-04-29T14:34:13.468Z'
+---
+
+DyConCMSの仕様について考えます.<!-- sep -->
+
+DyConCMSは主にノード間の関係を動的に管理するシステムです.
+WebUIなどコンテンツの編集機能はローカル上のエディタで行う予定です. またタグの管理は必要かなと思います.
+
+* ノードのCRUD操作と検索
+* タグのCRUD操作と検索
+* ローカル・ドキュメントの参照とエディタの起動
+
+ができればひとまずいいかなと思います.
+
+## ノードのCRUD操作と検索
+
+CURD操作はreact-flowが提供してくれそうです. 
+
+## グラフの種類
+
+| グラフの種類 | React Flow | Dgraph |
+| :---: | :---: | :---: |
+| Undirected Graph | エッジなし | フィールドなし |
+| Directed Graph | エッジあり | フィールドあり |
+| bidirected Graph | エッジあり | @hasInverseディレクティブ |
+
+[Links in the Graph](https://dgraph.io/docs/graphql/schema/graph-links/)
+[Graph Database Basics: Graphs](https://dgraph.io/blog/post/graph-basics/)
+
+## graphql-request
+
+データ取得はgraphlq-requestとSWRを組み合わせる.
+
+## スキーマ
+
+各ノードは問で構成されています. 各問はそれを解くための問に依存しています.
+depsの問が解けるなら, 各問は解けるはずなのです.
+各問は対応する回答があります.
+
+```graphql
+type Question {
+    id: ID!
+    title: String!
+    icon: String!
+    content: String!
+    answer: Answer!
+    tags: [Tag!]!
+    deps: [Question!]!
+    created_at: DateTime!
+}
+
+type Answer {
+    id: ID!
+    question: Question! @hasinverse(field: answer)
+}
+
+type Tag {
+    id: ID!
+    name: String!
+}
+```
+
+[Datetime Indexes in Dgraph ](https://dgraph.io/blog/post/datetime-indexes-dgraph/)
+
+
