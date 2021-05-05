@@ -61,7 +61,8 @@ type Question {
 
 type Answer {
     id: ID!
-    question: Question! @hasinverse(field: answer)
+    content: String!
+    question: Question!
 }
 
 type Tag {
