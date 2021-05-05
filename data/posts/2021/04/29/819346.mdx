@@ -30,6 +30,13 @@ CURD操作はreact-flowが提供してくれそうです.
 [Links in the Graph](https://dgraph.io/docs/graphql/schema/graph-links/)
 [Graph Database Basics: Graphs](https://dgraph.io/blog/post/graph-basics/)
 
+## Context API
+
+複雑なProp Drillingを避けるためにUIはContext APIを利用する. 基本的にはUIに関係するものに限定する.
+
+[brainvader/myq](https://github.com/brainvader/myq)
+[Redux vs. The React Context API](https://daveceddia.com/context-api-vs-redux/)
+
 ## graphql-request
 
 データ取得はgraphlq-requestとSWRを組み合わせる.
@@ -54,7 +61,8 @@ type Question {
 
 type Answer {
     id: ID!
-    question: Question! @hasinverse(field: answer)
+    content: String!
+    question: Question!
 }
 
 type Tag {
@@ -64,6 +72,39 @@ type Tag {
 ```
 
 [Datetime Indexes in Dgraph ](https://dgraph.io/blog/post/datetime-indexes-dgraph/)
+
+## 動かし方
+
+とりあえず動かす場合は[dgraph/standalone](https://hub.docker.com/r/dgraph/standalone)というイメージを使うと良いらしいです.
+standaloneをコンテナとして実行しても, 停止すると中身は消えてしまうので注意が必要です.
+
+スキーマを設定するエンドポイントは/admin/schemaです. それらを踏まえて以下のようなnpmスクリプトを設定しておきます.
+
+```json
+"scripts": {
+    "dgraph:standalone": "dgraph:standalone": "docker run -it -p 8080:8080 dgraph/standalone:main",
+    "db:schema": "curl -X POST localhost:8080/admin/schema --data-binary '@schema.graphql'"
+}
+```
+
+以上のスクリプトを実行してGraphQL Playgroundでhttp://localhost:8080/adminにアクセスする以下のようになりました.
+
+![設定したスキーマの取得](/static/posts/2021/04/29/819346_001.png)
+
+整形されていないとやや見にくいですが, crulでPOSTしたスキーマが指定されています.
+getGQLSchemaというクエリが実行されています.
+
+```graphql
+{
+  getGQLSchema {
+    schema
+  }
+}
+```
+
+[Quick Start](https://dgraph.io/docs/graphql/quick-start/)
+[Administrative API](https://dgraph.io/docs/graphql/admin)
+
 
 ## コンテンツの更新
 
