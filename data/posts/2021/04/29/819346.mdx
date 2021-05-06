@@ -102,9 +102,80 @@ getGQLSchemaというクエリが実行されています.
 }
 ```
 
+こうしたクエリはSCHEMAサイドパネルから確認することができます.
+
+![GraphQL PlaygroundでのQueryの表示](/static/posts/2021/04/29/819346_002.png)
+
+例えばhealthというクエリでサーバーの情報を取得できます.
+
+```graphql
+{
+  health {
+    status
+    address
+    instance
+  }
+}
+```
+
+![healthクエリの実行結果](/static/posts/2021/04/29/819346_003.png)
+
+
 [Quick Start](https://dgraph.io/docs/graphql/quick-start/)
 [Administrative API](https://dgraph.io/docs/graphql/admin)
 
+## クエリ
+
+実際のクエリはスキーマを元に自動的に生成されます.
+
+```graphql
+mutation {
+  addTag(input: { name: "DyCon" }) {
+    tag {
+      id
+      name
+    }
+  }
+}
+```
+
+のようなミューテーションを実行した結果は以下のようになる.
+
+![addTagクエリを実行した結果](/static/posts/2021/04/29/819346_004.png)
+
+さてnameフィールドの値を適当に変えて(Next.js等)て, すべてのタグを取得してみます.
+
+一つのオブジェクトを取得する場合はgetというプレフィックスが使われます.
+リストとして全部取得するならqueryというプレフィックスになります.
+従って今回はqueryTagという名前になります.
+
+```graphql
+query {
+  queryTag {
+    id
+    name
+  }
+}
+```
+
+![queryTagで全てのタグを取得した結果](/static/posts/2021/04/29/819346_004.png)
+
+DyConとNext.jsというタグが取得できました.
+
+[Queries Overview](https://dgraph.io/docs/graphql/queries/queries-overview/)
+[Mutations Overview](https://dgraph.io/docs/graphql/mutations/mutations-overview/)
+
+生成されるフィールドは@generateディレクティブでコントロールできます.
+
+[The @generate Directive](https://dgraph.io/docs/graphql/schema/generate/#sidebar)
+
+## シード・データ
+
+dgraph-jsを使って簡単なシード用のプログラムを書く予定です.
+
+// TODO: 実際の実装の説明をする.
+
+[Simple example project](https://github.com/dgraph-io/dgraph-js/tree/master/examples/simple)
 
 ## コンテンツの更新
 
