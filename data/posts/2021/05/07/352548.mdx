@@ -1,0 +1,68 @@
+---
+title: monoアップデート時にでるaptのメッセージ
+tags: ['apt', 'mono']
+date: '2021-05-07T10:15:54.945Z'
+---
+
+
+aptで更新した時にmonoパッケージに関して何やらメッセージが表示されていた.
+<!-- seq -->
+
+## aptメッセージの分類
+
+そもそも表示されるメッセージには大文字アルファベットとコロンがついており, それぞれ意味が違う.
+
+|接頭辞|意味|
+|:---:|:---:|
+|E| Errors|
+|W| Warning|
+|N| Notices|
+
+今回は通知ということだった.
+
+## そもそもの原因
+
+```bash
+dpkg --print-architecture
+```
+
+で表示されるアーキテクチャがパッケージのビルド時のターゲットのようです.
+筆者の環境ではamd64であった. つまり64ビットということになります.
+
+一方
+
+```bash
+dpkg --print-foreign-architectures
+```
+
+でi386が表示されるとマルチ・アーキテクチャを有効にしていることになるそうです.
+このi386は32ビットなので対応していないパッケージも存在しているらしいです.
+monoの指定したパッケージのバージョンではすでに32ビットをサポートしていないということで通知がでたようです.
+
+## 解決法
+
+すでにmonoのリポジトリに[同様のissue](Ubuntu 20.04 Focal: i386 version does not seem to work #19950)が指摘されていました.
+CPUのアーキテクチャを指定してやる必要があるようです.
+.listファイルのフォーマットは
+
+```
+ deb [ options ] uri suite [component1] [component2] [...]
+```
+
+でoptionにarch=armd64と指定するだけです. 書き換えるファイルはmono-official-stable.listです.
+
+```
+sudoedit /etc/apt/sources.list.d/mono-official-stable.list
+```
+
+を実行してdebの次に[arch=amd64]を書き加えます.
+
+
+以上です.
+
+## Reference
+
+* [What does the error line prefix `W: ` mean, like from apt-get or other, similar command's?](https://unix.stackexchange.com/questions/590027/what-does-the-error-line-prefix-w-mean-like-from-apt-get-or-other-similar)
+* [Skipping acquire of configured file 'main/binary-i386/Packages' as repository 'xxx' doesn't support architecture 'i386'](https://askubuntu.com/questions/741410/skipping-acquire-of-configured-file-main-binary-i386-packages-as-repository-x)
+* [What is this Multiarch?](https://wiki.debian.org/Multiarch/HOWTO)
+* [Limit apt repo to a certain arch?](https://askubuntu.com/questions/554079/limit-apt-repo-to-a-certain-arch)
