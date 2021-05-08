@@ -1,6 +1,6 @@
 ---
-title: Learn Rust with Tests (0)　Rust入門
-tags: ['rust', 'tdd']
+title: Learn Rust with Tests (1) Cargo入門
+tags: ['rust', 'tdd', 'cargo']
 date: '2021-05-07T12:20:52.146Z'
 ---
 
@@ -124,9 +124,70 @@ mod my_mod {
 
 [Managing Growing Projects with Packages, Crates, and Modules](https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html#managing-growing-projects-with-packages-crates-and-modules)
 
-### featuresとは？
 
 ### Workspaceとは?
+
+複数のパッケージが共通の外部パッケージを依存性として持つような場合に利用されます.
+
+```toml
+[workspace]
+members = [
+    "hello_world", "struct"
+]
+```
+
+membersフィールドで指定した名前は別々のパッケージとして扱われます. ただし出力フォルダやCargo.lockは共通で同じ依存性を共有しています. なおワークスペース・ルートに上の例のようなCargo.tomlしか無いフォルダを仮想ワークスペース(virtual workspace)と呼ぶそうです.
+
+### featuresとは？
+
+// TODO: featureのことを調べて書く
+
+[The Cargo Book/Cargo Reference/Features](https://doc.rust-lang.org/cargo/reference/features.html)を参照.
+
+## テスト用プロジェクト
+
+binクレートかlibクレーかがまず問題になります. 特にバイナリがほしいわけではないのでbinクレートでは無いですが, 外部パッケージとして他のプロジェクトに利用されるわけでもありません.
+
+TDD的にプログラムを学ぶことになるといちいちcargo-newでプロジェクトを乱立するのは面倒です. GitHubなどでホスティングするなら一つのプロジェクトにまとめるほうが管理しやすいでしょう.
+
+そうすると
+
+1. Workspaceでメンバーとして管理する
+2. 別のクレートとして管理する
+3. examplesターゲットとして管理する
+
+いずれでも対応可能ですが, 3の場合はターゲットの使用用途と違ってきます. ただし実装の回答例と考える無理筋とも感じもしません. 依存性の管理は正直どちらでもいいのですが, バラバラに管理すると面倒なので一箇所にまとめたいです.
+
+workspaceで章ごとの内容を管理し, 各メンバーはlibクレートにする.　解答例は, examplesに記入するというのがいいのかもしれません. プロジェクト名はキャメルケースにします.
+
+```bash
+mkdir lean-rust-with-tests
+code lean-rust-with-tests
+# create .gitignore
+# create Cargo.toml
+cd lean-rust-with-tests
+echo 'stable' > rust-toolchain
+git init
+git commit -m "initial commit"
+git checkout -b feature/hello-world
+cargo new hello-world --lib
+```
+
+Cargo.tomlの内容は以下です.
+
+```rust
+[workspace]
+[members] = []
+```
+
+.gitignoreの内容は以下です.
+
+```
+/target
+```
+
+[The Cargo Book/More about Cargo and Crates.io/Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html?search=)
+[Learning Rust/Workspaces/Let's Get It Started](https://learning-rust.github.io/docs/d5.workspaces.html)
 
 ## References
 
