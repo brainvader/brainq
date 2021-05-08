@@ -1,0 +1,37 @@
+---
+title: VSCodeでMarkdownの文章長くなりがち
+tags: ['markdown', 'vscode']
+date: '2021-05-08T07:32:04.881Z'
+---
+
+
+VSCodeの折返しの設定方法について
+<!-- sep -->
+
+## デフォルトの設定を確認する
+
+Ctrl + Pでコマンド・パレットを開いてopen default settingsを実行する. 該当行を抜き出すと以下のようになっています.
+
+```json
+// Controls how lines should wrap.
+//  - off: Lines will never wrap.
+//  - on: Lines will wrap at the viewport width.
+//  - wordWrapColumn: Lines will wrap at `editor.wordWrapColumn`.
+//  - bounded: Lines will wrap at the minimum of viewport and `editor.wordWrapColumn`.
+"editor.wordWrap": "off",
+
+// Controls the wrapping column of the editor when `editor.wordWrap` is `wordWrapColumn` or `bounded`.
+"editor.wordWrapColumn": 80,
+```
+
+editor.wordWrapColumnは指定されていますが, editor.wordWrapが無効になっているのでこれをboundedに設定します.
+
+## 設定の変更
+
+再びコマンド・パレットを開いて, Open Settings (JSON)を実行し, 以下の行を追加します.
+
+```json
+"editor.wordWrap": "bounded",
+```
+
+適当なmdファイルを開いて折返しされていたらオッケーです.
