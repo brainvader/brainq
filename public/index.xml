@@ -7,9 +7,74 @@
       <language>en-us</language>
       <managingEditor>brainvade@gmail.com (BrainVader)</managingEditor>
       <webMaster>brainvade@gmail.com (BrainVader)</webMaster>
-      <lastBuildDate>Wed, 28 Apr 2021 13:48:30 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 08 May 2021 07:32:04 GMT</lastBuildDate>
       <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/08/251748</guid>
+    <title>VSCodeでMarkdownの文章長くなりがち</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/08/251748</link>
+    <description></description>
+    <pubDate>Sat, 08 May 2021 07:32:04 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>markdown</category><category>vscode</category>
+  </item>
+
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/764287</guid>
+    <title>Learn Rust with Tests (1) Cargo入門</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/764287</link>
+    <description></description>
+    <pubDate>Fri, 07 May 2021 12:20:52 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>rust</category><category>tdd</category><category>cargo</category>
+  </item>
+
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/352548</guid>
+    <title>monoアップデート時にでるaptのメッセージ</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/352548</link>
+    <description></description>
+    <pubDate>Fri, 07 May 2021 10:15:54 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>apt</category><category>mono</category>
+  </item>
+
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/03/596551</guid>
+    <title>Learn C# with Unity Test Framework (1) Hello, World</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/03/596551</link>
+    <description>
+This is the first post in Learn C# With UTF seriese inspired by [Learn Go with tests](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/hello-world).
+</description>
+    <pubDate>Mon, 03 May 2021 10:29:49 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>unity</category><category>test</category><category>C#</category>
+  </item>
+
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/02/807156</guid>
+    <title>アニメキャラクターのモデリング</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/02/807156</link>
+    <description>
+キャラクター・モデリングやる中で一般的な内容をまとめておきます.
+</description>
+    <pubDate>Sun, 02 May 2021 04:45:30 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>zena</category><category>blender</category>
+  </item>
+
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/04/29/819346</guid>
+    <title>DyConCMS (2) 仕様</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/04/29/819346</link>
+    <description>
+DyConCMSの仕様について考えます.</description>
+    <pubDate>Thu, 29 Apr 2021 14:34:13 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>DyConCMS</category>
+  </item>
+
   <item>
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/04/28/221658</guid>
     <title>DyConCMS (1) Next.jsとreact-flowの相性検証</title>
