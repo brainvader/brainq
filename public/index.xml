@@ -14,7 +14,10 @@
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/08/251748</guid>
     <title>VSCodeでMarkdownの文章長くなりがち</title>
     <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/08/251748</link>
-    <description></description>
+    <description>
+
+VSCodeの折返しの設定方法について
+</description>
     <pubDate>Sat, 08 May 2021 07:32:04 GMT</pubDate>
     <author>brainvade@gmail.com (BrainVader)</author>
     <category>markdown</category><category>vscode</category>
@@ -24,7 +27,10 @@
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/764287</guid>
     <title>Learn Rust with Tests (1) Cargo入門</title>
     <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/764287</link>
-    <description></description>
+    <description>
+テスト駆動でRustを学習しようという取り組みです. そのためにまずはプロジェクトをどのように構成するか考える必要があります. Rustの内容的には[Glossary - Cargo Book](https://doc.rust-lang.org/cargo/appendix/glossary.html?highlight=member#workspace)を読めば分かります.
+
+</description>
     <pubDate>Fri, 07 May 2021 12:20:52 GMT</pubDate>
     <author>brainvade@gmail.com (BrainVader)</author>
     <category>rust</category><category>tdd</category><category>cargo</category>
@@ -34,7 +40,10 @@
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/352548</guid>
     <title>monoアップデート時にでるaptのメッセージ</title>
     <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/05/07/352548</link>
-    <description></description>
+    <description>
+
+aptで更新した時にmonoパッケージに関して何やらメッセージが表示されていた.
+</description>
     <pubDate>Fri, 07 May 2021 10:15:54 GMT</pubDate>
     <author>brainvade@gmail.com (BrainVader)</author>
     <category>apt</category><category>mono</category>
