@@ -1,0 +1,198 @@
+---
+title: Learn Rust with Tests (1) Cargo入門
+tags: ['rust', 'tdd', 'cargo']
+date: '2021-05-07T12:20:52.146Z'
+---
+
+テスト駆動でRustを学習しようという取り組みです. そのためにまずはプロジェクトをどのように構成するか考える必要があります. Rustの内容的には[Glossary - Cargo Book](https://doc.rust-lang.org/cargo/appendix/glossary.html?highlight=member#workspace)を読めば分かります.
+
+<!-- seq -->
+
+
+## Rustでテストを書くには?
+
+Rustのパッケージ・マネジャであるCargoはtestサブコマンドでテストをそもそも実行できます.
+なので問題になるのはプロジェクトの構成ぐらいでしょうか?
+
+## 用語
+
+まず用語を整理しておきましょう.
+
+### プロジェクト
+
+[Glossary](https://doc.rust-lang.org/cargo/appendix/glossary.html?highlight=member#workspace)には, 
+
+> Another name for a package.
+
+とありCargoプロジェクト=パッケージと考えて良いでしょう. つまりCargoでは
+
+<u>**Cargoのパッケージを作ることとRustのプロジェクトを作ることは同じこと**</u>
+
+です.
+
+### Cargoとは？
+
+小包のこと英語で"package"といいます. またCargoは積荷という意味があります. このことから,
+
+> さまざまなパッケージ化された積荷の配送を扱うソフトウェア
+
+と言えそうです(実際はソフトウェアの配送以外にもビルドやテスト・ツール, 依存性管理などの役割もこなします). ソフトウェアの世界では配送よりも配布(distribute)という言葉がよく使われているように感じます. Cargoのアイコンはこのことをよく表していますね.
+
+![Cargoのアイコン](/static/posts/2021/05/07/764287_001.png)
+
+ここのダンボール箱がパッケージ化されたRust製のソフトウェアを表し, それらがパレットの上に山積みされています. Rustでの効率的なソフトウェア配送を担うシンボルとしてぴったりです.
+
+### パッケージの中身とは?
+
+ではパッケージの内容物は何でしょうか?
+
+[Packages and Crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html)によると, パッケージには主にクレートとCargo.tomlという構成ファイルが含まれています.
+
+> A package is one or more crates that provide a set of functionality. A package contains a Cargo.toml file that describes how to build those crates.
+
+あるいは
+
+> A package is a collection of source files and a Cargo.toml manifest file which describes the package. 
+
+実際にcargo-newコマンドを実行するとデフォルトでbinクレートを一つ含むRustパッケージを生成します. 生成されたプロジェクトにはCargo.tomlが一つ含まれています. 
+
+実際の開発には依存性とよばれる外部パッケージやテストなどが必要になりますが, 単純なプログラムならコマンド一発で雛形が作れて開発に取り掛かれます.
+
+###  クレートとは?
+
+crateは英語では荷物を入れる木箱のことを指します. Cargoはプロジェクトをクレートというより小さい単位に分けて管理することができます. クレートには2種類あってバイナリとライブラリです.
+
+> A Rust crate is either a library or an executable program, referred to as either a library crate or a binary crate, respectively.
+
+バイナリは実行形式のファイルを生成し, ライブラリはCargoを通じて外部パッケージとして他のプロジェクトで利用されます. 実行形式にはテストやベンチマーク, 例なども含まれます. ポイントはバイナリ・クレートは実行可能プログラムとあるようにソース・ファイルではなく生成物をクレートと呼ぶことです. 
+
+### ターゲットとは?
+
+ターゲットはいろんな意味に使われます. Rust以外でもOSのアーキテクチャを指す文脈で使われることがあります. CargoにおけるターゲットはCargo Targetと呼ばれ
+
+> Cargo packages consist of targets which correspond to artifacts that will be produced. Packages can have library, binary, example, test, and benchmark targets.
+
+つまりこのソースファイルは何ために生成されるのかという目的がCargoターゲットです.
+
+[Cargo Targets](https://doc.rust-lang.org/cargo/reference/cargo-targets.html)によると,
+
+> Cargo packages consist of targets which correspond to source files which can be compiled into a crate. 
+
+かなり持って回った言い方です. 生成物であるクレートのソースであるファイルに対応するターゲットで構成されるのがパッケージと定義されています. では具体的にはどんなものがあるかというと
+
+> Packages can have library, binary, example, test, and benchmark targets.
+
+これが[Package Layout](https://doc.rust-lang.org/cargo/guide/project-layout.html)で示されたファイル階層に対応しています. 
+
+[Cargo.tomlの項目](https://doc.rust-lang.org/cargo/reference/cargo-targets.html#configuring-a-target)でビルドの細かい設定ができます. 
+
+> All of the [lib], [[bin]], [[example]], [[test]], and [[bench]] sections in Cargo.toml support similar configuration for specifying how a target should be built. 
+
+ソース・ファイルを目的ごとにまとめたものがターゲットで, 目的はクレートという生成物を得ることです. ビルド後に得られたクレートはターゲットごとに分けてTargetディレクトリに置かれます.
+
+とはいえあまり厳密に使い分ける必要もないようで,
+
+> A package contains multiple targets, each of which is a crate.
+
+> Every target defined for a Cargo package is a crate.
+
+とあるように, 両者は同一視できるようです. テスト・コードはテスト・ターゲットと呼ぶべきですがテスト・クレートといっても実用上は問題なさそうです. ただしこの場合はnameフィールドで付けた名前, 例えば,
+
+**fooクレートはテスト用のターゲット**
+
+というような使い方が良いと思われます. クレートの種類がターゲットと思うとよく分かります.
+
+> Loosely, the term crate may refer to either the source code of the target or to the compiled artifact that the target produces. 
+
+### モジュールとは?
+
+ソースコードの分割はよくある機能です. CargoというよりもRustのファイル分割の単位です. modというキーワードと名前, それに続く中括弧内に定義したコードはモジュールとして他のコードから分離されます. pub修飾子でアクセシビリティをコントロールします.
+
+```rust
+mod my_mod {
+    fn private_function() {
+        // do something for same modules
+    }
+
+    pub fn public_function() {
+        // do something for other modules
+    }
+}
+```
+
+> Rust's module system is used to organize code into logical units called modules, which provide isolated namespaces within the code.
+
+[Managing Growing Projects with Packages, Crates, and Modules](https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html#managing-growing-projects-with-packages-crates-and-modules)
+
+
+### Workspaceとは?
+
+複数のパッケージが共通の外部パッケージを依存性として持つような場合に利用されます.
+
+```toml
+[workspace]
+members = [
+    "hello_world", "struct"
+]
+```
+
+membersフィールドで指定した名前は別々のパッケージとして扱われます. ただし出力フォルダやCargo.lockは共通で同じ依存性を共有しています. なおワークスペース・ルートに上の例のようなCargo.tomlしか無いフォルダを仮想ワークスペース(virtual workspace)と呼ぶそうです.
+
+### featuresとは？
+
+// TODO: featureのことを調べて書く
+
+[The Cargo Book/Cargo Reference/Features](https://doc.rust-lang.org/cargo/reference/features.html)を参照.
+
+## テスト用プロジェクト
+
+binクレートかlibクレーかがまず問題になります. 特にバイナリがほしいわけではないのでbinクレートでは無いですが, 外部パッケージとして他のプロジェクトに利用されるわけでもありません.
+
+TDD的にプログラムを学ぶことになるといちいちcargo-newでプロジェクトを乱立するのは面倒です. GitHubなどでホスティングするなら一つのプロジェクトにまとめるほうが管理しやすいでしょう.
+
+そうすると
+
+1. Workspaceでメンバーとして管理する
+2. 別のクレートとして管理する
+3. examplesターゲットとして管理する
+
+いずれでも対応可能ですが, 3の場合はターゲットの使用用途と違ってきます. ただし実装の回答例と考える無理筋とも感じもしません. 依存性の管理は正直どちらでもいいのですが, バラバラに管理すると面倒なので一箇所にまとめたいです.
+
+workspaceで章ごとの内容を管理し, 各メンバーはlibクレートにする.　解答例は, examplesに記入するというのがいいのかもしれません. プロジェクト名はキャメルケースにします.
+
+```bash
+mkdir lean-rust-with-tests
+code lean-rust-with-tests
+# create .gitignore
+# create Cargo.toml
+cd lean-rust-with-tests
+echo 'stable' > rust-toolchain
+git init
+git commit -m "initial commit"
+git checkout -b feature/hello-world
+cargo new hello-world --lib
+```
+
+Cargo.tomlの内容は以下です.
+
+```rust
+[workspace]
+[members] = []
+```
+
+.gitignoreの内容は以下です.
+
+```
+/target
+```
+
+[The Cargo Book/More about Cargo and Crates.io/Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html?search=)
+[Learning Rust/Workspaces/Let's Get It Started](https://learning-rust.github.io/docs/d5.workspaces.html)
+
+## References
+
+- [How to organize tests in Rust?](https://sireliah.com/niusy/testing_in_rust/)
+- [Split a module across several files](https://stackoverflow.com/questions/22596920/split-a-module-across-several-files)
+- [Unit testing](https://doc.rust-lang.org/rust-by-example/testing/unit_testing.html)
+- [Tests -Cargo Book](https://doc.rust-lang.org/cargo/guide/tests.html)
+- [Writing Automated Tests](https://doc.rust-lang.org/book/ch11-00-testing.html)
