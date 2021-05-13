@@ -1,0 +1,83 @@
+---
+title: Flutter SDKの手動インストール
+tags: ['flutter']
+date: '2021-05-13T11:33:49.975Z'
+---
+
+Flutter SDKをPop!_OSに手動インストールするという話です.
+<!--sep -->
+
+
+## FHSとは?
+
+LinuxにはFHS(Filesystem Hierarchy Standard)という標準仕様が定められています. これに従うとバイナリは以下のいずれかにインストールされることが多いようです.
+
+- /bin
+- /usr/bin
+- /usr/loca/bin
+
+ルート・ディレクトリのbinはOSやディストリビューションを配布する側が使うディレクトリとされています. 基本的には利用するだけです.
+
+/usr/binはパッケージ管理システム用途に用意されているようです.
+
+それ以外の管理者が手動で導入する場合, つまりユーザー全体でシェアするような場合を想定すると/usr/local以下に配置するようです.
+
+今回は手動インストールなので/usr/local以下が有力そうです.
+
+もう一つoptというフォルダがありこちらは
+
+> /opt is reserved for the installation of add-on application software packages.
+
+[3.13. /opt : Add-on application software packages](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s13.html)
+
+> /opt/ ディレクトリーは、通常デフォルトインストールの一部ではないソフトウェアやアドオンパッケージ用に確保されています。
+
+[2.2. ファイルシステム階層標準 (FHS) の概要](https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/6/html/storage_administration_guide/s1-filesystem-fhs)
+
+ただ/optは手動インストールではあまり使わないようです.
+
+もう一つ最近の傾向として$HOME以下にbinや.localといったフォルダを置くケースです. これらは特定のユーザーのみの利用を想定しています. Ubuntuのように個人利用のディストリビューションでは管理者とユーザーを分ける積極的な意味は少ないです. そのためユーザー用のディレクトリで管理するという考え方のようです.
+
+## どこにインストールすべきか?
+
+PCに入れて使うならユーザーを切りかる意義はあまりないので$HOME/.localあたりが良さそうです. パスはシンボリック・リンクを利用します.
+
+```bash
+git clone https://github.com/flutter/flutter.git -b stable
+mv flutter ~/.local/share
+cd /usr/local/bin
+sudo ln -s ~/.local/share/flutter/bin/flutter ./
+#  flutter precache
+```
+
+これでflutterがインストールできました.
+
+## clangのインストール
+
+
+Desktop開発のためのclangがインストールできない.flutter config --enable-linux-desktop
+
+```bash
+sudo apt install clang
+```
+
+> Reading package lists... Done
+> Building dependency tree
+> Reading state information... Done
+> Some packages could not be installed. This may mean that you have
+> requested an impossible situation or if you are using the unstable
+> distribution that some required packages have not yet been created
+> or been moved out of Incoming.
+> The following information may help to resolve the situation:
+> 
+> The following packages have unmet dependencies:
+ clang : Depends: clang-10 (>= 10~) but it is not going to be installed
+> E: Unable to correct problems, you have held broken packages.
+
+[How to install Clang 11 on Debian](https://stackoverflow.com/questions/66223241/how-to-install-clang-11-on-debian)
+
+
+## Reference
+
+- [第14回：FHSによるディレクトリの規格化](https://www.itmedia.co.jp/help/howto/linux/0007master/14/04.html)
+- [/usr/local と /opt の使い分け](https://qiita.com/akiakishitai/items/69bb68f4f6fbd6a88016)
