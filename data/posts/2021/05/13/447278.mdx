@@ -1,6 +1,6 @@
 ---
 title: Flutter SDKの手動インストール
-tags: ['flutter', 'wip']
+tags: ['flutter']
 date: '2021-05-13T11:33:49.975Z'
 ---
 
@@ -54,7 +54,6 @@ sudo ln -s ~/.local/share/flutter/bin/flutter ./
 
 ## clangのインストール
 
-
 Desktop開発のためのclangがインストールできない.flutter config --enable-linux-desktop
 
 ```bash
@@ -82,9 +81,22 @@ sudo apt install clang
 
 スクリプトはPop!_OSはサポートしていない的な内容が出力された. また/etc/apt/resources.listへの追加してもclangをインストールすると依存性が解決されない・・・😓
 
-<!--
-TODO: 解決法を探す. 
--->
+バージョン固定になるものの手動で入れることにする.
+
+1. [LLVM 12.0.0](https://github.com/llvm/llvm-project/releases/tag/llvmorg-12.0.0)からclang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xzをダウンロードする
+2. 解答して~/.local/share以下に移動する.
+
+```bash
+cd ~/Downloads
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
+tar -xf clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
+mv clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04 ~/.local/share
+cd /usr/local/bin
+sudo ln -s ~/.local/share/clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04/bin/clang++ clang++
+flutter doctor -v
+```
+
+でclang++がチェックされていたら良いと思います👍
 
 ## Reference
 
