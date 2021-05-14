@@ -1,6 +1,6 @@
 ---
 title: Flutter SDKの手動インストール
-tags: ['flutter']
+tags: ['flutter', 'wip']
 date: '2021-05-13T11:33:49.975Z'
 ---
 
@@ -18,7 +18,7 @@ LinuxにはFHS(Filesystem Hierarchy Standard)という標準仕様が定めら�
 
 ルート・ディレクトリのbinはOSやディストリビューションを配布する側が使うディレクトリとされています. 基本的には利用するだけです.
 
-/usr/binはパッケージ管理システム用途に用意されているようです.
+/usr/binはパッケーfジ管理システム用途に用意されているようです.
 
 それ以外の管理者が手動で導入する場合, つまりユーザー全体でシェアするような場合を想定すると/usr/local以下に配置するようです.
 
@@ -74,8 +74,17 @@ sudo apt install clang
  clang : Depends: clang-10 (>= 10~) but it is not going to be installed
 > E: Unable to correct problems, you have held broken packages.
 
+以下を試した.
+
 [How to install Clang 11 on Debian](https://stackoverflow.com/questions/66223241/how-to-install-clang-11-on-debian)
 
+[LLVM Debian/Ubuntu nightly packages](https://apt.llvm.org/)
+
+スクリプトはPop!_OSはサポートしていない的な内容が出力された. また/etc/apt/resources.listへの追加してもclangをインストールすると依存性が解決されない・・・😓
+
+<!--
+TODO: 解決法を探す. 
+-->
 
 ## Reference
 
