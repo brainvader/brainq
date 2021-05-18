@@ -98,6 +98,52 @@ flutter doctor -v
 
 でclang++がチェックされていたら良いと思います👍
 
+## android-studioのインストール方法とは?
+
+普通に[公式](https://developer.android.com/studio?gclid=CjwKCAjwy42FBhB2EiwAJY0yQiZyAoJ33Yz58IfHZ8MtDIIhHJkNWjuK83a25Uu0joY3ZtKt_ZVrEhoC22cQAvD_BwE&gclsrc=aw.ds)からダウンロードします.
+
+```bash
+tar -xf android-studio-ide-202.7351085-linux.tar.gz
+# or 
+# tar -xvf android-studio-ide-202.7351085-linux.tar.gz
+mv android-studio ~/.local/share
+# or
+# sudo mv android-studio /opt/
+```
+
+このルート・フォルダをflutterコマンドで認識させます. 
+[Flutter doctor reports seeing two installations of Android Studio](https://stackoverflow.com/questions/53566547/flutter-doctor-reports-seeing-two-installations-of-android-studio)を参考にconfigサブコマンドを以下のオプションで実行します.
+
+```bash
+flutter config --android-studio-dir="/home/brainvader/.local/share/android-studio
+```
+
+flutter-doctorを見るとまだライセンスに関するエラーが表示されています. この状態で,
+
+```bash
+flutter doctor --android-licenses
+```
+
+を実行しても以下のリンク先のエラーが出るだけです.
+
+[flutter doctor --android-licenses gives a java error](https://stackoverflow.com/questions/61993738/flutter-doctor-android-licenses-gives-a-java-error/66363044)
+
+これはandroid command-line toolsが無いことによるエラーのようです. 改めて
+
+```bash
+flutter doctor --android-licenses
+```
+
+を起動すると複数のライセンス条項が表示されるので全てyesで実行します.
+
+## Appendix
+
+### Android Studioをショートカット・アイコンから起動するには?
+
+LinuxではAndroid Studio本体の起動はbinフォルダ以下のstudio.shを起動することになります. desktopファイルを作って起動できるようにしておくと便利かもしれません.
+
+[［Ubuntu］Android Studio をインストールしショートカットを作成する](https://qiita.com/kaleidot725/items/dc1eccc9064ab6b8cd4a)
+
 ## Reference
 
 - [第14回：FHSによるディレクトリの規格化](https://www.itmedia.co.jp/help/howto/linux/0007master/14/04.html)
