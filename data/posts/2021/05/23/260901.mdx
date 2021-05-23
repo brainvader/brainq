@@ -1,0 +1,39 @@
+---
+title: Next.jsでmjsをimportする
+tags: ['esm', 'next.j']
+date: '2021-05-23T04:14:16.421Z'
+---
+
+Next.jsでexportとimportを使うという話です.
+
+<!-- sep -->
+
+## ESMモジュールとは?
+
+ESMモジュールはECMASCript Moduleのことを指すようです. もう一つモジュールとしてCommonJSです. 両者は互換性がありません(あるならそもそも問題ないわけですが・・・). 
+
+Next.jsではESMモジュールが使えるわけですが, Node.jsのスクリプトを書いてそれをgetStaticPropsなどで使おうとすると問題が生じます. Node.jsでimport/exportを使うにはmjsという拡張子でESMモジュールであることを明示しますが, これをNext.jsは読み込めません. これは普通のnpmモジュールもおなじで動的インポートという機能を使う必要があります.
+
+## 動的インポートとは?
+
+動的インポートは実行時にモジュールを読み込んで利用する構文です. 例えばNext.jsなら以下のようになります.
+
+```javascript
+export async function getStaticProps() {
+    const { aModule} = await import('aModule');
+    const bModule = (await import('bModule')).default;
+    return {
+        props: {
+            someData
+        }
+    }
+}
+```
+
+getStaticPropsはサーバー側で実行されるのでNode.jsのモジュールを呼び出せます. 動的にすることでブラウザ側から実行されるモジュールと区別しているとも言えます. 例外的にfsやhttp, pathなどのモジュールはこのスコープの外側でimport宣言してもいいようです.
+
+## 参考文献
+
+- [Dynamic Import](https://nextjs.org/docs/advanced-features/dynamic-import)
+
+
