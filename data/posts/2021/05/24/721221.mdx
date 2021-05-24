@@ -1,0 +1,70 @@
+---
+title: UI Toolkit & UI Builder入門
+tags: ['unity', 'ui builder']
+date: '2021-05-24T11:20:12.463Z'
+---
+
+Unityの次世代のUIシステムUI ToolkitとUI Builderについて調べる.
+
+<!-- sep -->
+
+## UI Toolkitとは?
+
+[公式ドキュメント](https://docs.unity3d.com/Manual/UIElements.html)によると
+
+> Unity’s UI
+Toolkit is a collection of features, functionality, resources, and tools for developing user interfaces (UI). 
+
+とあります. あるいは
+
+> The core of UI Toolkit is a retained-mode UI system based on recognized web technologies.
+
+## UI Toolkit packageとは?
+
+UI Toolkitは現状エディタ拡張のみ正式なサポートとなっています. ランタイム, つまりゲーム実行時のUIにはこのパッケージが必要になります.
+
+## UI Assetとは?
+
+UI ToolkitはWeb技術から着想して作られているらしくマークアップ言語とスタイルシートでUIを構築していくようです. この２つを合わせてUIアセットと呼んでいます.
+
+* UXMLドキュメント
+* Unity Style Sheet(USS)
+
+## UIシステムとは?
+
+
+
+## UI Builderとは？
+
+[マニュアル](https://docs.unity3d.com/Packages/com.unity.ui.builder@1.0/manual/index.html)によると
+
+> Note: UI Builder is the visual authoring tool for UI Toolkit.
+
+とあるように. UI Toolkitのオーサリング・ツールです.
+
+## IMGUIとは?
+
+IMGUIはUnityのUIシステムの一つで, 主にEditor拡張のために用意された機能です. UIとしてはimmediateモードと呼ばれる描画方法を採用しており, フレームごとに描画を実行するような仕組みになっています(再描画を抑制するような最適化は存在するかもしれませんが・・・).
+
+## Unity UIとは？
+
+uGUIとも呼ばれ, いままではこちらを使ってゲーム用のUIを構築していました. 特徴は他のゲームのコンポーネントと同じくゲーム・オブジェクトからUIを作成するという部分です.
+
+> Unity UI ... is a GameObject-based UI system that uses Components and the Game View to arrange, position, and style user interfaces.
+
+そもそも描画エンジンの元となるグラフィックAPIでは2Dや3Dの違いはありません. 全てポリゴンで構成されGPUで描画される同一のものです. Unity UIはゲーム上のオブエジェクトとUIを区別しない考え方に基づいて, 両者を同じようなシステムで構成することが可能です.
+
+## ImmediateモードUIとは？
+
+ImmediateモードなUIシステムとは命令的(Imperative)に図形をレンダリングするようなシスムテです. フレームの更新のたびに描画のコードをその場で(immediate)実行し描画を行います.
+
+## RetainedモードUIとは?
+
+まずUIを宣言的な方法で表現し, そのモデルに基づいて画面を描画します. このモデルはメモリ上で保持された(retained)ままになります. 
+
+## 参考文献
+
+- [The UI Toolkit Package](https://docs.unity3d.com/2020.2/Documentation/Manual/UITK-package.html?_ga=2.111283972.1863132901.1621851015-1931476703.1619517284)
+- [UI Builder 1.0.0-preview.14 Manual](https://docs.unity3d.com/Packages/com.unity.ui.builder@1.0/manual/index.html)
+- [UI Toolkit](https://docs.unity3d.com/Manual/UIElements.html)
+- [Unity UI](https://docs.unity3d.com/Manual/com.unity.ugui.html)
