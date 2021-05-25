@@ -4,7 +4,7 @@ tags: ['unity', 'ui builder']
 date: '2021-05-24T11:20:12.463Z'
 ---
 
-Unityの次世代のUIシステムUI ToolkitとUI Builderについて調べる.
+Unityの次世代のUIシステムUI ToolkitとUI Builderについてざっくり調べる.
 
 <!-- sep -->
 
@@ -19,9 +19,18 @@ Toolkit is a collection of features, functionality, resources, and tools for dev
 
 > The core of UI Toolkit is a retained-mode UI system based on recognized web technologies.
 
+UI Toolkitは現状２つに分かれています.
+
+* Built-in
+* Package
+
+Built-inのUI ToolkitはEditor用でのみ利用できます. ランタイム, つまりゲームの実行時用の機能は別にパッケージという形でインストールする必要があります.
+
 ## UI Toolkit packageとは?
 
 UI Toolkitは現状エディタ拡張のみ正式なサポートとなっています. ランタイム, つまりゲーム実行時のUIにはこのパッケージが必要になります.
+
+[Installing the UI Toolkit package - The UI Toolkit Package](https://docs.unity3d.com/2020.2/Documentation/Manual/UITK-package.html?_ga=2.111283972.1863132901.1621851015-1931476703.1619517284)
 
 ## UI Assetとは?
 
@@ -32,7 +41,15 @@ UI ToolkitはWeb技術から着想して作られているらしくマークア�
 
 ## UIシステムとは?
 
+いくつかのコンポーネントから構成されています.
 
+1. Visual Tree: グラフ構造のUIのモデル
+2. Controls: ライブラリ. 1のグラフの各ノード
+3. Data Binding System: コントロールにデータを結合する仕組み.
+4. Layout Engine: スタイリングを担当する.
+5. Event System: 入力, タッチといったユーザーとのインタラクションを担う.
+6. UI Renderer: 実際に画面に表示するUI用のレンダラ.
+7. Runtime System: 実際のゲームでUIを表示する仕組み.
 
 ## UI Builderとは？
 
