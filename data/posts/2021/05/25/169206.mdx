@@ -128,7 +128,14 @@ xmlnsは名前空間を表します. ここではUnityEngine.UIElementsという
 
 Window ➡ UI Toolkit ➡ UI Builder
 
-これでUI Builder Editor Windowが開きます.　デフォルトで&lt;unsaved file&gt; *.uxmlが生成されるのでペインを選択してCtrl + Sで適当な名前(test.uxmlなど)保存する.
+これでUI Builder Editor Windowが開きます.　デフォルトで&lt;unsaved file&gt; *.uxmlが生成されるのでペインを選択してCtrl + Sで適当な名前(test.uxmlなど)保存する. エディタで開くと以下のようなUXML文書が表示される.
+
+```xml
+<ui:UXML 
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements">
+</ui:UXML>
+```
 
 ### 単独のアセットとして作成する.
 
@@ -136,7 +143,19 @@ Assetsフォルダで右クリックして,
 
 Create ➡ UI Toolkit ➡ UI Document
 
-を選択する. 名前を付けて保存し, クリックするとUI Builder Editor Windowが表示される.
+を選択する. 名前を付けて保存し, クリックするとUI Builder Editor Windowが表示される. エディタで開くと以下のようなUXML文書が表示される.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+>
+    
+</engine:UXML>
+```
 
 ## References
 
