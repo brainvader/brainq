@@ -1,0 +1,145 @@
+---
+title: XMLとしてのUXML
+tags: ['unity', 'uxml', 'xml']
+date: '2021-05-25T12:42:19.130Z'
+---
+
+XMLからUXMLを考えてみる.
+
+<!-- sep -->
+
+
+## UXMLテンプレートとは?
+
+UXMLはUnityのユーザー・インターフェース(UI)の構造を論理的に記述する仕様です. HTML(HyperText Markup Language), XAML(eXtensible Application Markup Language), そしてXML(eXtensible Markup Language)などを参考にして策定されているようです.
+
+> UXML files are text files that define the logical structure of the user interface. The format used in UXML files is inspired by HTML (HyperText Markup Language), XAML (eXtensible Application Markup Language), and XML (eXtensible Markup Language).
+
+名前からも伺えるように実際はほぼXMLです. そこに独自拡張をしたという感じです. [Writing UXML Templates](https://docs.unity3d.com/2020.1/Documentation/Manual/UIE-WritingUXMLTemplate.html)の例を見てみましょう.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+    xsi:schemaLocation="UnityEngine.UIElements ../UIElementsSchema/UnityEngine.UIElements.xsd">
+
+    <Label text="Select something to remove from your suitcase:"/>
+    <Box>
+        <Toggle name="boots" label="Boots" value="false" />
+        <Toggle name="helmet" label="Helmet" value="false" />
+        <Toggle name="cloak" label="Cloak of invisibility" value="false"/>
+    </Box>
+    <Box>
+        <Button name="cancel" text="Cancel" />
+        <Button name="ok" text="OK" />
+    </Box>
+</UXML>
+```
+
+### XML宣言とは?
+
+一番上はXML宣言でこの文書がXML宣言で, この文書がXML文書であることを示しています. 
+
+
+### XSD(XML Schema Definition)
+
+XML宣言に続くUXMLタグで囲まれた部分がUIの定義になります. UXMLはXML Schemaと呼ばれるスキーマ言語で記述されています. xsdというのがXML Schema Definitionの略で利用できる要素などが定義されています. 
+
+さてXML　SchemaとはW3Cが推奨するXML文書を記述する際の仕様です. xsdの仕様に従ってどういう要素や属性があるのかを定義したファイルがxsdファイルです. 例えば以下のようにしてXML要素の定義を行います.
+
+```xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="name" type="xsd:string"/>
+</xsd:schema>
+```
+
+nameというタグ名で文字列型の値をマークアップすることが分かります. xsdという接頭辞はを使うことでelementという要素はXML Schema Definitionで定義されている要素であることを示すことができます. xsdは名前空間と呼ばれ, 名前空間が違ことで同じ要素名を使うことができます. 
+
+### XSI(XML Schema Instances)とは?
+
+仕様には
+
+> This specification defines several attributes for direct use in any XML documents, as described in Schema-Related Markup in Documents Being Validated (§2.7). These attributes are in the namespace whose name is http://www.w3.org/2001/XMLSchema-instance. 
+
+とあり, XML文書で直接使えるいくつかの属性を定義しているようです. そもそも
+
+```xml
+<ROOTElement xmlns:name="URLを指定"></ROOTElement>
+```
+
+はnameという名前空間の名前を指定するものです. 
+
+```xml
+<ROOTElement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></ROOTElement>
+```
+
+<!-- TODO: Treat usl as string -->
+ならxsiという名前空間の名前がhttp://www.w3.org/2001/XMLSchema-instanceです. ユニークな名前ということでURLが流用されているだけで, 必ずしもここにXML要素の定義があるわけではないです. つまりschemaLocationやnoNamespaceSchemaLocationを使うために記述されているだけのおまじないと考えてもいいです.
+
+重要なのはそれ以降の行でです.
+
+```xml
+<UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+    xsi:schemaLocation="UnityEngine.UIElements ../UIElementsSchema/UnityEngine.UIElements.xsd">
+```
+
+xsiを使うことでschemaLocationやnoNamespaceSchemaLocationが定義できるようになりました. それぞれの意味は以下です.
+
+|属性|意味|
+|:---:|:---:|
+|schemaLocation|名前空間が指定されている時その名前空間とスキーマの場所を指定する|
+|noNamespaceSchemaLocation|名前空間の指定がない場合にスキーマの場所を指定する|
+||||
+
+どちらもURLとして../UIElementsSchema/UIElements.xsdが指定されています. これはUnity側が提供するのであまりどこにあるとか気にする必要ない無いと思います.
+
+<!-- TODO: Look up the reason -->
+ところでUnityEngine.UIElementsという名前空間が指定されているわけですが, 両方指定するのが習わしなのでしょうか?
+
+
+## 名前空間の省略とは？
+
+xmlnsは名前空間を表します. ここではUnityEngine.UIElementsという名前でした. これを定義することで以降の要素で名前空間を表す接頭辞を省略できます.
+
+> You can also define a default namespace by excluding a prefix. For example, the line xmlns="UnityEngine.UIElements" defines UnityEngine.UIElements as the default namespace. This means that specifying, for example, &lt;Button \&gt; is equivalent to <UnityEngine.UIElements:Button />
+
+つまりUXMLタグ以下ではUnityEngine.UIElementsという名前空間を暗黙に使うという意味になるようです.
+
+## UnityEngine.UIElementsとUnityEditor.UIElementsの違いは?
+
+違いは明確です.
+
+> The UnityEngine.UIElements namespace contains elements that are defined as part of the Unity Runtime.
+
+> The UnityEditor.UIElements namespace contains elements that are available in the Unity Editor. ...
+
+つまりゲーム用とUnityエディタ用ですね.
+
+## UXMLアセットを作るには?
+
+いくつかの方法があります.
+
+### UIビルダーを使う.
+
+Window ➡ UI Toolkit ➡ UI Builder
+
+これでUI Builder Editor Windowが開きます.　デフォルトで&lt;unsaved file&gt; *.uxmlが生成されるのでペインを選択してCtrl + Sで適当な名前(test.uxmlなど)保存する.
+
+### 単独のアセットとして作成する.
+
+Assetsフォルダで右クリックして,
+
+Create ➡ UI Toolkit ➡ UI Document
+
+を選択する. 名前を付けて保存し, クリックするとUI Builder Editor Windowが表示される.
+
+## References
+
+- [Writing UXML Templates](https://docs.unity3d.com/2020.1/Documentation/Manual/UIE-WritingUXMLTemplate.html)
+- [SEのためのXML Schema入門（1）簡単なXML Schemaから始めよう](https://www.atmarkit.co.jp/ait/articles/0312/02/news002.html)
+- [データ記述とWebサービス XMLの基本](https://www.mlab.im.dendai.ac.jp/~yamada/web/xml/)
