@@ -1,0 +1,59 @@
+---
+title: Pop!_OSへのUE4の導入
+tags: ['ue4']
+date: '2021-05-29T08:34:34.479Z'
+---
+
+Unreal Engine 4(UE4)のLinuxへの導入した時のメモ
+
+<!-- sep -->
+
+## UE4のビルド
+
+前提条件がいくつかあります.
+
+- Epic Gamesのアカウント
+- GitHubのアカウント
+- git
+
+あとは基本的には以下の通りに従えば行けました.
+
+[Linux Quick Start](https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/)
+
+## ランチャーからの起動
+
+このままではコマンドラインからしか起動できないので不便です. ビルド後のフォルダにGNOMEのデスクトップ・エントリファイルがあるのでそれを利用します.
+
+```bash
+$ find ./ | grep -e ".desktop$"
+./Engine/Source/Programs/UnrealVersionSelector/Private/Linux/Resources/com.epicgames.UnrealVersionSelector.desktop
+./Engine/Source/Programs/UnrealVersionSelector/Private/Linux/Resources/com.epicgames.UnrealEngineEditor.desktop
+./Engine/Source/Programs/UnrealVersionSelector/Private/Linux/Resources/com.epicgames.UnrealEngine.desktop
+```
+
+これはUnrealVersionSelector-Linux-Shippingを実行するとこれらのエントリーファイルが勝手に~/.local/shared/application以下にコピーされます. 
+
+```bash
+$ ./UnrealEngine-release/Engine/Binaries/Linux/UnrealVersionSelector-Linux-Shipping
+```
+
+この際ファイルパスは自動的に設定してくれますが, バイナリは自分で指定する必要があります.
+
+```text
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=/home/brainvader/Applications/UnrealEngine-release/Engine/Binaries/Linux/UE4Editor
+Name=Unreal Engine Editor
+Icon=ubinary
+Terminal=false
+StartupWMClass=UE4Editor
+MimeType=application/uproject
+Comment=Created By Unreal Engine
+```
+
+他のエントリファイル今のところ関係なさそうです.
+
+[UbuntuへのUnrealEngineセットアップ](https://ysuzuki19.github.io/post/unreal-engine-setup/)
