@@ -1,0 +1,41 @@
+---
+title: flatpackでいれたBlenderでmmd_toolsをインストールする
+tags: ['blender', 'flatpak']
+date: '2021-05-31T06:09:02.569Z'
+---
+
+blender_mmd_toolsをインストールしようとしたが, flatpak版だと常識が通じないことが分かった.
+
+<!-- sep -->
+
+## Addonのインストール -常識編-
+
+通常は[VRM_Addon_for_Blender](https://github.com/saturday06/VRM_Addon_for_Blender)のようにpreferences ➡ addons ➡ installからzipファイルを選択することでインストールできる.
+
+あるいは[Platform Dependent Paths](https://docs.blender.org/manual/en/latest/advanced/blender_directory_layout.html#platform-dependent-paths)のパスにインストールすれば良い.
+
+しかしflatpak版のBlenderは何もしないとこれらのフォルダを認識しない.
+
+## プリファレンスでScriptsフォルダの指定
+
+[File Paths](https://docs.blender.org/manual/en/latest/editors/preferences/file_paths.html)を見てscriptsフォルダの下にaddonsを作成する.
+
+```bash
+mkdir -p $HOME/.config/blender/2.92/scripst
+```
+
+このパスをpreferences ➡ File Paths ➡ Scriptsに指定する. 
+
+![File Pathsにaddonsフォルダを指定](/static/posts/2021/05/31/541258_001.png)
+
+次にaddonsディレクトリをscrips以下に作る.
+
+```bash
+mkdir -p $HOME/.config/blender/2.92/scripst/addons
+```
+
+このディレクトリにblender_mmd_tools-dev_test以下のmmd_toolsディレクトリをコピーすると認識するようになる.
+
+![Blenderのaddonとしてblender_mmd_toolsが認識された](/static/posts/2021/05/31/541258_002.png)
+
+チェックを入れると使えるはず.
