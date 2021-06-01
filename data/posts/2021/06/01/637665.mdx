@@ -1,0 +1,61 @@
+---
+title: Git for Windowsで開発環境を整える
+tags: ['windows', 'git']
+date: '2021-06-01T11:58:01.338Z'
+---
+
+Git for Windowsを使って従来通りの開発環境をどこまで引き継げるか試す.
+
+<!-- sep -->
+
+## モチベーション
+
+Windows機とLinux機でコードの共有を行う. 少なくともどちらからも開発可能にしておく.
+
+## Git for Windows
+
+[公式](https://gitforwindows.org/)からダウンロードすれば使えるが, いくつか注意点がある.
+
+### Configuring the ending conversions
+
+いわゆるLFかCRLFかの違いである.
+
+Checkout as-is, commit Unix-style line endings
+
+という2番目の選択肢を選ぶと良いらしい. 以下のコマンドでも変更できる.
+
+```bash
+# git config --global core.autocrlf true
+git config --global core.autocrlf input
+# git config --global core.autocrlf false
+```
+
+[気をつけて！Git for Windowsにおける改行コード](https://qiita.com/uggds/items/00a1974ec4f115616580)
+
+[Configuring Git to handle line endings](https://docs.github.com/en/github/getting-started-with-github/getting-started-with-git/configuring-git-to-handle-line-endings)
+
+### シンボリック・リンクを有効にする
+
+はたしているのかよくわからないですが
+
+[管理者以外でもシンボリックリンクを作成できる権限を与える](https://isgs-lab.com/440/)
+
+### Use MinTTy (the default terminal of MSYS2)
+
+これを有効にするとGit Bashが使えるっぽい.
+
+## Windows Terminalに追加する
+
+以下を参考にする.
+
+[Windows Terminal で Git Bash を表示する](https://qiita.com/yokra9/items/bdd0882268b308cf22ca)
+
+## VSCodeでGit Bashをターミナルにする.
+
+以下を参考にする.
+
+[VSCode のターミナルを Git Bash に変更](https://qiita.com/daikiozawa/items/48a9fe0e2898c7dd78ae)
+
+## GitHubへのSSH接続
+
+GitHub Desktopを使うと認可だけでSSH接続は不要です. ただしプロジェクトによってはWSL2とかを使ったほうがいいかもしれません. Node.jsとかRsutとかそんな感じのものを動かす場合です. この場合はLinuxのやり方に準拠するだけですが.

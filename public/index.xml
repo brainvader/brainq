@@ -7,9 +7,22 @@
       <language>en-us</language>
       <managingEditor>brainvade@gmail.com (BrainVader)</managingEditor>
       <webMaster>brainvade@gmail.com (BrainVader)</webMaster>
-      <lastBuildDate>Tue, 01 Jun 2021 11:11:21 GMT</lastBuildDate>
+      <lastBuildDate>Tue, 01 Jun 2021 11:58:01 GMT</lastBuildDate>
       <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/06/01/637665</guid>
+    <title>Git for Windowsで開発環境を整える</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/06/01/637665</link>
+    <description>
+Git for Windowsを使って従来通りの開発環境をどこまで引き継げるか試す.
+
+</description>
+    <pubDate>Tue, 01 Jun 2021 11:58:01 GMT</pubDate>
+    <author>brainvade@gmail.com (BrainVader)</author>
+    <category>windows</category><category>git</category>
+  </item>
+
   <item>
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/2021/06/01/685138</guid>
     <title>git-lfsの導入とBlenderプロジェクトの管理</title>
