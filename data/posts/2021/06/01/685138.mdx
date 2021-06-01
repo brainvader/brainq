@@ -1,0 +1,42 @@
+---
+title: git-lfsの導入とBlenderプロジェクトの管理
+tags: ['git-lfs', 'blender']
+date: '2021-06-01T11:11:21.566Z'
+---
+
+BlenderをGitで管理しているがLFS(Large FileSystem)を導入してみる.
+
+<!-- sep -->
+
+## インストール
+
+普通にaptを使っても駄目だった.
+
+> Failed to call git rev-parse --git-dir: exit status 128
+
+[Error: Failed to call git rev-parse --git-dir: exit status 128 on ubuntu 18.04 #3964](https://github.com/git-lfs/git-lfs/issues/3964#issuecomment-569505728)を見るとインストール方法があるらしい.
+
+
+[Installation](https://github.com/git-lfs/git-lfs/wiki/Installation)を参考にする.
+
+```bash
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+brew install git-lfs
+git lfs install
+```
+
+## 使い方
+
+```bash
+git lfs track "*.blend"
+```
+
+を実行すると.gitattributesが追加される. これもバージョン管理下に加える. これだけでいいらしい. 
+
+## まとめ
+
+従来も問題なくできていたので何が変わったのかはよくわからないが, これでソースファイル以外の様々なデータ形式をGitで管理できるようになる.
+
+## 参考文献
+
+- [An open source Git extension for versioning large files](https://git-lfs.github.com/)
